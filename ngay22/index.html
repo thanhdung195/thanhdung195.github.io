@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Simple Calculator</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="calculator">
+    <h2>Smart Calculator</h2>
+    <input type="number" id="number1" placeholder="Enter the first number">
+    <input type="number" id="number2" placeholder="Enter the second number">
+    <div>
+      <button onclick="calculate('+')">+</button>
+      <button onclick="calculate('-')">-</button>
+      <button onclick="calculate('*')">*</button>
+      <button onclick="calculate('/')">/</button>
+    </div>
+    <div id="result"></div>
+  </div>
+  <script>
+    function calculate(operation) {
+      const num1 = document.getElementById('number1').value;
+      const num2 = document.getElementById('number2').value;
+      const resultDiv = document.getElementById('result');
+      if (num1 === '' || num2 === '') {
+        resultDiv.innerText = "Both inputs must not be empty.";
+        return;
+      }
+      const number1 = parseFloat(num1);
+      const number2 = parseFloat(num2);
+      if (operation === '/' && number2 === 0) {
+        resultDiv.innerText = "Cannot divide by zero.";
+        return;
+      }
+      let result;
+      switch (operation) {
+        case '+':
+          result = number1 + number2;
+          break;
+        case '-':
+          result = number1 - number2;
+          break;
+        case '*':
+          result = number1 * number2;
+          break;
+        case '/':
+          result = number1 / number2;
+          break;
+      }
+      resultDiv.innerText = `Result: ${result}`;
+    }
+  </script>
+</body>
+</html>
