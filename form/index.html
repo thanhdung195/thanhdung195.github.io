@@ -3,22 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Registration Form</title>
+    <title>Registration Form with Validation</title>
     <style>
         body {
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
-            background-color: #f4f4f9;
+            background-color: #f9f9f9;
         }
 
         .container {
             width: 50%;
-            margin: 0 auto;
+            margin: 20px auto;
             background-color: #fff;
-            padding: 30px;
+            padding: 20px;
             border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
         }
 
         h2 {
@@ -27,29 +27,42 @@
         }
 
         label {
-            font-size: 16px;
-            margin-bottom: 5px;
             display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
         }
 
-        input[type="text"],
-        input[type="email"],
-        input[type="password"],
-        input[type="tel"] {
+        input {
             width: 100%;
             padding: 10px;
-            margin: 8px 0 20px 0;
+            margin-bottom: 15px;
             border: 1px solid #ccc;
             border-radius: 4px;
             box-sizing: border-box;
         }
 
+        input:focus {
+            border-color: #4CAF50;
+            outline: none;
+        }
+
+        .error {
+            border-color: red !important;
+        }
+
+        .error-message {
+            color: red;
+            font-size: 12px;
+            margin-top: -10px;
+            margin-bottom: 10px;
+        }
+
         input[type="submit"] {
             background-color: #4CAF50;
             color: white;
-            border: none;
-            padding: 15px 32px;
             font-size: 16px;
+            border: none;
+            padding: 10px;
             cursor: pointer;
             border-radius: 4px;
             width: 100%;
@@ -59,54 +72,102 @@
             background-color: #45a049;
         }
 
-        .form-error {
-            color: red;
+        .success-message {
+            color: green;
             font-size: 14px;
+            text-align: center;
         }
     </style>
 </head>
 <body>
     <div class="container">
         <h2>Registration Form</h2>
-        <form id="registrationForm" action="" method="post" onsubmit="return validateForm()">
-            <label for="firstName">First Name</label>
-            <input type="text" id="firstName" name="firstName" required>
-            
-            <label for="lastName">Last Name</label>
-            <input type="text" id="lastName" name="lastName" required>
-            
-            <label for="email">Email Address</label>
+        <form id="registrationForm">
+            <label for="username">Username</label>
+            <input type="text" id="username" name="username" minlength="3" required>
+            <div id="usernameError" class="error-message"></div>
+
+            <label for="email">Email</label>
             <input type="email" id="email" name="email" required>
-            
-            <label for="phone">Phone Number</label>
-            <input type="tel" id="phone" name="phone" pattern="^[0-9]{10}$" title="Please enter a 10-digit phone number" required>
-            
+            <div id="emailError" class="error-message"></div>
+
             <label for="password">Password</label>
-            <input type="password" id="password" name="password" required minlength="6" title="Password must be at least 6 characters long">
-            
+            <input type="password" id="password" name="password" pattern="(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}" required>
+            <div id="passwordError" class="error-message"></div>
+
             <label for="confirmPassword">Confirm Password</label>
             <input type="password" id="confirmPassword" name="confirmPassword" required>
-            
+            <div id="confirmPasswordError" class="error-message"></div>
+
+            <label for="phone">Phone Number</label>
+            <input type="tel" id="phone" name="phone" pattern="\d{3}-\d{3}-\d{4}" required>
+            <div id="phoneError" class="error-message"></div>
+
             <input type="submit" value="Register">
+            <div id="successMessage" class="success-message"></div>
         </form>
-        <div class="form-error" id="formError"></div>
     </div>
 
     <script>
-        function validateForm() {
-            let password = document.getElementById("password").value;
-            let confirmPassword = document.getElementById("confirmPassword").value;
-            let formError = document.getElementById("formError");
-            formError.innerHTML = '';
+        const form = document.getElementById("registrationForm");
+        const username = document.getElementById("username");
+        const email = document.getElementById("email");
+        const password = document.getElementById("password");
+        const confirmPassword = document.getElementById("confirmPassword");
+        const phone = document.getElementById("phone");
+        const successMessage = document.getElementById("successMessage");
 
-            // Check if passwords match
-            if (password !== confirmPassword) {
-                formError.innerHTML = "Passwords do not match.";
-                return false;
+        const errorMessages = {
+            usernameError: "Username must be at least 3 characters long.",
+            emailError: "Please enter a valid email address.",
+            passwordError: "Password must be at least 8 characters long and include a number and a special character.",
+            confirmPasswordError: "Passwords do not match.",
+            phoneError: "Phone number must follow the XXX-XXX-XXXX format."
+        };
+
+        form.addEventListener("input", (event) => {
+            const target = event.target;
+            const errorElement = document.getElementById(target.id + "Error");
+            if (target.validity.valid) {
+                target.classList.remove("error");
+                errorElement.textContent = "";
+            } else {
+                target.classList.add("error");
+                errorElement.textContent = errorMessages[target.id + "Error"];
+            }
+        });
+
+        form.addEventListener("submit", (event) => {
+            event.preventDefault();
+            let isValid = true;
+
+            // Validate all fields
+            [username, email, password, confirmPassword, phone].forEach((field) => {
+                const errorElement = document.getElementById(field.id + "Error");
+                if (!field.validity.valid) {
+                    isValid = false;
+                    field.classList.add("error");
+                    errorElement.textContent = errorMessages[field.id + "Error"];
+                }
+            });
+
+            // Additional validation for passwords
+            if (password.value !== confirmPassword.value) {
+                isValid = false;
+                confirmPassword.classList.add("error");
+                document.getElementById("confirmPasswordError").textContent = errorMessages.confirmPasswordError;
             }
 
-            return true;
-        }
+            if (isValid) {
+                successMessage.textContent = "Registration successful!";
+                form.reset();
+                [username, email, password, confirmPassword, phone].forEach((field) => {
+                    field.classList.remove("error");
+                });
+            } else {
+                successMessage.textContent = "";
+            }
+        });
     </script>
 </body>
 </html>
