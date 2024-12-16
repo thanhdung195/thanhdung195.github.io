@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fried Chicken and Pizza Recipes</title>
+    <link rel="stylesheet" href="style.css">
+    <script>
+        function showTab(contentId) {
+            const tabs = document.querySelectorAll('.tab-content');
+            tabs.forEach(tab => tab.classList.remove('active'));
+            document.getElementById(contentId).classList.add('active');
+        }
+    </script>
+</head>
+<body>
+    <header>
+        <h1>Cooking Tutorial</h1>
+    </header>
+    <div class="container">
+        <div class="tabs">
+            <div class="tab" onclick="showTab('fried-chicken')">Fried Chicken</div>
+            <div class="tab" onclick="showTab('pizza')">Pizza</div>
+        </div>
+
+        <div id="fried-chicken" class="tab-content active">
+            <h2>Fried Chicken</h2>
+            <img src="mamas-fried-chicken_audit1819_beauty_197-9d9a60dbcede4c7984c6d670fba69e08.jpg" alt="Delicious fried chicken">
+            <h3>What You Need</h3>
+            <ul>
+                <li>1 kg chicken pieces</li>
+                <li>2 cups buttermilk</li>
+                <li>2 cups all-purpose flour</li>
+                <li>1 tsp paprika</li>
+                <li>1 tsp garlic powder</li>
+                <li>1 tsp salt</li>
+                <li>1/2 tsp black pepper</li>
+                <li>Oil for frying</li>
+            </ul>
+
+            <h3>How to Do It</h3>
+            <ol>
+                <li>Marinate the chicken in buttermilk for at least 1 hour, preferably overnight.</li>
+                <li>In a bowl, mix flour, paprika, garlic powder, salt, and black pepper.</li>
+                <li>Heat oil in a deep frying pan over medium-high heat.</li>
+                <li>Remove chicken from buttermilk and dredge each piece in the flour mixture, coating evenly.</li>
+                <li>Fry chicken in batches until golden brown and cooked through, about 12-15 minutes per batch.</li>
+                <li>Drain on paper towels and serve hot.</li>
+            </ol>
+        </div>
+
+        <div id="pizza" class="tab-content">
+            <h2>Pizza</h2>
+            <img src="cach-lam-banh-pizza.webp" alt="Delicious homemade pizza">
+            <h3>What You Need</h3>
+            <ul>
+                <li>1 pizza base</li>
+                <li>1/2 cup pizza sauce</li>
+                <li>1 cup shredded mozzarella cheese</li>
+                <li>Your choice of toppings (pepperoni, bell peppers, onions, olives, etc.)</li>
+                <li>1 tsp olive oil</li>
+                <li>1/2 tsp dried oregano</li>
+            </ul>
+
+            <h3>How to Do It</h3>
+            <ol>
+                <li>Preheat your oven to 220°C (430°F).</li>
+                <li>Place the pizza base on a baking tray or pizza stone.</li>
+                <li>Spread pizza sauce evenly over the base.</li>
+                <li>Sprinkle mozzarella cheese over the sauce.</li>
+                <li>Add your desired toppings.</li>
+                <li>Drizzle olive oil over the pizza and sprinkle with dried oregano.</li>
+                <li>Bake in the preheated oven for 10-12 minutes, or until the crust is golden and the cheese is bubbly.</li>
+                <li>Remove from the oven, slice, and serve hot.</li>
+            </ol>
+        </div>
+    </div>
+    <div class="footer">
+        <p>&copy; cooking tutorial</p>
+    </div>
+</body>
+</html>
